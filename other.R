@@ -1,6 +1,6 @@
 ph <- function(package) {
   if (!tryCatch(is.character(package) && length(package) == 1L, error=function(e) FALSE)) {
-    package <- deparse1(substitute(package))
+    package <- deparse(substitute(package), nlines=1)
   }
   choices <- as.character(utils::installed.packages()[, "Package"])
   package <- match.arg(package, choices)
