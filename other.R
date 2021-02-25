@@ -1,5 +1,11 @@
 # set options
-options(Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L))
+options(
+  Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+  repos = c(
+    "CRAN" = "https://cloud.r-project.org/",
+    "USGS" = "https://owi.usgs.gov/R/"
+  )
+)
 
 
 # Function to load package and open help documentation
