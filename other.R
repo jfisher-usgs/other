@@ -21,17 +21,17 @@ ph <- function(package) {
 
 
 # Function to load package functions and datasets in the current environment for debugging
-pd <- function(path = ".") {
+pd <- function(path = ".", envir = parent.frame()) {
   path <- normalizePath(path.expand(path), winslash = "/")
   if (!file.exists(file.path(path, "DESCRIPTION"))) stop("Invalid DESCRIPTION")
   suppressPackageStartupMessages(
     library(basename(path), character.only = TRUE, quietly = TRUE)
   )
   files <- list.files(file.path(path, "R"), "\\.R$", full.names = TRUE)
-  for (file in files) source(file)
+  for (file in files) source(file, local = envir)
   files <- list.files(file.path(path, "R"), "\\.rda$", full.names = TRUE)
-  for (file in files) load(file)
+  for (file in files) load(file, envir = envir)
   files <- list.files(file.path(path, "data"), "\\.rda$", full.names = TRUE)
-  for (file in files) load(file)
+  for (file in files) load(file, envir = envir)
   invisible()
 }
