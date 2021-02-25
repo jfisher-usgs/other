@@ -16,11 +16,11 @@ pr <- function(path = ".") {
   }
   package <- basename(path)
   library(package, character.only = TRUE)
-  files <- list.files(file.path(path, "R"), pattern = "\\.R$", full.names = TRUE)
+  files <- list.files(file.path(path, "R"), "\\.R$", full.names = TRUE)
   for (file in files) source(file)
-  files <- list.files(file.path(path, "R"), pattern = "\\.rda$", full.names = TRUE)
+  files <- list.files(file.path(path, "R"), "\\.rda$", full.names = TRUE)
   for (file in files) load(file)
-  files <- list.files(file.path(path, "data"), pattern = "\\.rda$", full.names = TRUE)
+  files <- list.files(file.path(path, "data"), "\\.rda$", full.names = TRUE)
   for (file in files) load(file)
   invisible()
 }
