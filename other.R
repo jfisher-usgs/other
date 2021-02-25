@@ -7,3 +7,20 @@ ph <- function(package) {
   library((package), character.only=TRUE, quietly=TRUE)
   suppressMessages(utils::help(package=(package), help_type="html"))
 }
+
+
+pr <- function(path = ".") {
+  path <- normalizePath(path.expand(path), winslash = "/")
+  if (!file.exists(file.path(path, "DESCRIPTION"))) {
+    stop("Invalid DESCRIPTION")
+  }
+  package <- basename(path)
+  library(package, character.only = TRUE)
+  files <- list.files(file.path(path, "R"), pattern = "\\.R$", full.names = TRUE)
+  for (file in files) source(file)
+  files <- list.files(file.path(path, "R"), pattern = "\\.rda$", full.names = TRUE)
+  for (file in files) load(file)
+  files <- list.files(file.path(path, "data"), pattern = "\\.rda$", full.names = TRUE)
+  for (file in files) load(file)
+  invisible()
+}
