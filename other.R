@@ -14,14 +14,11 @@ ph <- function(package) {
 }
 
 
-# Function to load package functions and datasets in the current environment for debugging.
+# Function to load package functions and datasets in the current environment for debugging
 pd <- function(path = ".") {
   path <- normalizePath(path.expand(path), winslash = "/")
-  if (!file.exists(file.path(path, "DESCRIPTION"))) {
-    stop("Invalid DESCRIPTION")
-  }
-  package <- basename(path)
-  library(package, character.only = TRUE, quietly=TRUE)
+  if (!file.exists(file.path(path, "DESCRIPTION"))) stop("Invalid DESCRIPTION")
+  library(basename(path), character.only = TRUE, quietly=TRUE)
   files <- list.files(file.path(path, "R"), "\\.R$", full.names = TRUE)
   for (file in files) source(file)
   files <- list.files(file.path(path, "R"), "\\.rda$", full.names = TRUE)
