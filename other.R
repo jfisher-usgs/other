@@ -1,3 +1,4 @@
+# Function to load package and open help documentation
 ph <- function(package) {
   if (!tryCatch(is.character(package) && length(package) == 1L, error=function(e) FALSE)) {
     package <- deparse(substitute(package), nlines=1)
@@ -9,13 +10,14 @@ ph <- function(package) {
 }
 
 
-pr <- function(path = ".") {
+# Function to load package functions and datasets in the current environment for debugging.
+pd <- function(path = ".") {
   path <- normalizePath(path.expand(path), winslash = "/")
   if (!file.exists(file.path(path, "DESCRIPTION"))) {
     stop("Invalid DESCRIPTION")
   }
   package <- basename(path)
-  library(package, character.only = TRUE)
+  library(package, character.only = TRUE, quietly=TRUE)
   files <- list.files(file.path(path, "R"), "\\.R$", full.names = TRUE)
   for (file in files) source(file)
   files <- list.files(file.path(path, "R"), "\\.rda$", full.names = TRUE)
