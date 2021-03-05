@@ -17,7 +17,9 @@ local({
     if (Sys.info()["sysname"] %in% "Windows") {
       options(install.packages.check.source = "no", pkgType = "binary")
     }
-    try(utils::install.packages(missing_pkgs, quiet = TRUE), silent = TRUE)
+    invisible(try({
+      utils::install.packages(missing_pkgs, quiet = TRUE)
+    }, silent = TRUE))
   }
 })
 
