@@ -14,7 +14,7 @@ local({
   paths <- find.package(pkgs, quiet = TRUE, verbose = FALSE)
   missing_pkgs <- setdiff(pkgs, basename(paths))
   if (length(missing_pkgs)) {
-    if (Sys.info()["sysname"] == "Windows") {
+    if (Sys.info()["sysname"] %in% "Windows") {
       options(install.packages.check.source = "no", pkgType = "binary")
     }
     try(utils::install.packages(missing_pkgs, quiet = TRUE), silent = TRUE)
