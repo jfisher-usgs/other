@@ -13,7 +13,12 @@ local({
   pkgs <- c("remotes", "languageserver")
   paths <- find.package(pkgs, quiet = TRUE, verbose = FALSE)
   missing_pkgs <- setdiff(pkgs, basename(paths))
-  if (length(missing_pkgs)) utils::install.packages(missing_pkgs)
+  if (length(missing_pkgs)) {
+    if (Sys.info()["sysname"] == "Windows") {
+      options(install.packages.check.source = "no", pkgType = "binary")
+    }
+    try(utils::install.packages(missing_pkgs, quiet = TRUE), silent = TRUE)
+  }
 })
 
 
