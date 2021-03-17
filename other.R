@@ -1,6 +1,6 @@
 # set options
 options(
-  pkgType = "win.binary",
+  pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
   repos = c(
     "CRAN" = "https://cloud.r-project.org/",
