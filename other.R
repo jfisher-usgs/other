@@ -1,11 +1,25 @@
+# Function that returns the URL for the MRAN repository
+get_mran_url <- function() {
+  if (!requireNamespace("httr")) install.packages("httr")
+  snapshot_date <- as.Date(Sys.time())
+  mran_root <- "https://cran.microsoft.com/snapshot/"
+  i <- 0L
+  repeat {
+    mran_url <- paste0(mran_root, snapshot_date - i, "/")
+    if (httr::GET(mran_url)$status_code == 200L || i > 100L) {
+      break
+    }
+    i <- i + 1L
+  }
+  mran_url
+}
+
+
 # set options
 options(
   pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c(
-    "CRAN" = "https://cloud.r-project.org/",
-    "USGS" = "https://owi.usgs.gov/R/"
-  )
+  repos = c("CRAN" = get_mran_url())
 )
 
 
