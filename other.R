@@ -1,6 +1,6 @@
 # Function that returns the latest valid MRAN URL
 get_mran_url <- function() {
-  if (!requireNamespace("checkpoint")) install.packages("checkpoint", quiet = TRUE)
+  if (!requireNamespace("checkpoint", quietly = TRUE)) install.packages("checkpoint")
   mran_root_url <- checkpoint::mranUrl()
   valid_snapshots <- checkpoint::getValidSnapshots(mran_root_url)
   snapshot_date <-  max(as.Date(valid_snapshots))
