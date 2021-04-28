@@ -1,17 +1,10 @@
-# Function that returns the URL for the MRAN repository
+# Function that returns the latest valid MRAN URL
 get_mran_url <- function() {
-  if (!requireNamespace("httr")) install.packages("httr")
-  snapshot_date <- as.Date(Sys.time())
-  mran_root <- "https://cran.microsoft.com/snapshot/"
-  i <- 0L
-  repeat {
-    mran_url <- paste0(mran_root, snapshot_date - i, "/")
-    if (httr::GET(mran_url)$status_code == 200L || i > 100L) {
-      break
-    }
-    i <- i + 1L
-  }
-  mran_url
+  if (!requireNamespace("checkpoint")) install.packages("checkpoint")
+  mran_root_url <- checkpoint::mranUrl()
+  valid_snapshots <- checkpoint::getValidSnapshots(mran_root_url)
+  snapshot_date <-  max(as.Date(valid_snapshots))
+  paste0(mran_root_url, snapshot_date)
 }
 
 
