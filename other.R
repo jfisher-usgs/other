@@ -1,20 +1,8 @@
-# Function that returns the latest valid MRAN URL
-get_mran_url <- function() {
-  if (!requireNamespace("checkpoint", quietly = TRUE)) {
-    local({utils::install.packages("checkpoint")})
-  }
-  mran_root_url <- checkpoint::mranUrl()
-  valid_snapshots <- checkpoint::getValidSnapshots(mran_root_url)
-  snapshot_date <- max(as.Date(valid_snapshots))
-  paste0(mran_root_url, snapshot_date)
-}
-
-
-# set options
+# set global options
 options(
   pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = get_mran_url())
+  repos = c("CRAN" = "https://packagemanager.rstudio.com/all/latest")
 )
 
 
