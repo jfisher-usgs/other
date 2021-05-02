@@ -1,5 +1,8 @@
 # Function that returns the latest valid snapshot of CRAN from MRAN
 get_cran_url <- function() {
+  if (!requireNamespace("checkpoint", quietly = TRUE)) {
+    local({utils::install.packages("checkpoint")})
+  }
   mran_url <- "https://mran.microsoft.com/snapshot/"
   valid_snapshots <- try(
     checkpoint::getValidSnapshots(mran_url),
