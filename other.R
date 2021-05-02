@@ -17,7 +17,7 @@ get_cran_url <- function() {
 options(
   pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = "https://packagemanager.rstudio.com/all/latest")
+  repos = c("CRAN" = get_cran_url())
 )
 
 
