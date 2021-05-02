@@ -10,10 +10,6 @@ get_mran_url <- function() {
 }
 
 
-repos=c(CRAN='https://cloud.r-project.org')
-
-
-
 # set global options
 options(
   pkgType = "binary",
