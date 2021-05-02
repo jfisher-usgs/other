@@ -1,5 +1,5 @@
 # Function that returns the latest valid snapshot from MRAN
-gget_mran_url <- function() {
+get_mran_url <- function() {
   if (!requireNamespace("checkpoint", quietly = TRUE)) {
     local({utils::install.packages("checkpoint")})
   }
