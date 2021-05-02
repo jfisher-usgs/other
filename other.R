@@ -1,3 +1,18 @@
+# Function that returns the latest valid snapshot of CRAN from MRAN
+get_cran_url <- function() {
+  mran_url <- "https://mran.microsoft.com/snapshot/"
+  valid_snapshots <- try(
+    checkpoint::getValidSnapshots(mran_url),
+    silent = TRUE
+  )
+  if (inherits(valid_snapshots, "try-error")) {
+    stop("Failed to find CRAN snapshot from Microsoft R Application Network.", call. = FALSE)
+  }
+  cran_date <- max(as.Date(valid_snapshots))
+  paste0(mran_url, cran_date)
+}
+
+
 # set global options
 options(
   pkgType = "binary",
