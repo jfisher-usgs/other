@@ -1,18 +1,12 @@
-# Function that returns the latest valid snapshot of CRAN from MRAN
-get_cran_url <- function() {
+# Function that returns the latest valid snapshot from MRAN
+gget_mran_url <- function() {
   if (!requireNamespace("checkpoint", quietly = TRUE)) {
     local({utils::install.packages("checkpoint")})
   }
-  mran_url <- "https://mran.microsoft.com/snapshot/"
-  valid_snapshots <- try(
-    checkpoint::getValidSnapshots(mran_url),
-    silent = TRUE
-  )
-  if (inherits(valid_snapshots, "try-error")) {
-    stop("Failed to find CRAN snapshot from Microsoft R Application Network.", call. = FALSE)
-  }
-  cran_date <- max(as.Date(valid_snapshots))
-  paste0(mran_url, cran_date)
+  mran_root_url <- checkpoint::mranUrl()
+  valid_snapshots <- checkpoint::getValidSnapshots(mran_root_url)
+  snapshot_date <- max(as.Date(valid_snapshots))
+  paste0(mran_root_url, snapshot_date)
 }
 
 
@@ -20,7 +14,7 @@ get_cran_url <- function() {
 options(
   pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = get_cran_url())
+  repos = c("CRAN" = get_mran_url())
 )
 
 
