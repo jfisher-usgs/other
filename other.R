@@ -3,6 +3,7 @@ get_mran_url <- function() {
   if (!requireNamespace("checkpoint", quietly = TRUE)) {
     local(utils::install.packages("checkpoint", repos = "https://cloud.r-project.org"))
   }
+  on.exit(detach("package:checkpoint", unload=TRUE))
   mran_root_url <- checkpoint::mranUrl()
   valid_snapshots <- checkpoint::getValidSnapshots(mran_root_url)
   snapshot_date <- max(as.Date(valid_snapshots))
