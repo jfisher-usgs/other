@@ -20,7 +20,7 @@ options(
 
 # install missing packages
 local({
-  pkgs <- c("remotes", "renv", "languageserver")
+  pkgs <- c("remotes", "renv", "languageserver", "pkgbuild")
   paths <- find.package(pkgs, quiet = TRUE, verbose = FALSE)
   missing_pkgs <- setdiff(pkgs, basename(paths))
   if (length(missing_pkgs)) {
