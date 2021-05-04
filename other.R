@@ -1,8 +1,9 @@
 # set global options
 options(
-  pkgType = "binary",
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = "https://packagemanager.rstudio.com/cran/latest")
+  repos = c("CRAN" = "https://packagemanager.rstudio.com/cran/latest"),
+  pkgType = "binary",
+  install.packages.check.source = "no"
 )
 
 
@@ -12,9 +13,6 @@ local({
   paths <- find.package(pkgs, quiet = TRUE, verbose = FALSE)
   missing_pkgs <- setdiff(pkgs, basename(paths))
   if (length(missing_pkgs)) {
-    if (Sys.info()["sysname"] %in% "Windows") {
-      options(install.packages.check.source = "no", pkgType = "binary")
-    }
     try(utils::install.packages(missing_pkgs, quiet = TRUE), silent = TRUE)
   }
 })
