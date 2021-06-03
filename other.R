@@ -1,7 +1,7 @@
 # set global options
 options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = "https://packagemanager.rstudio.com/cran/latest"),
+  repos = c("CRAN" = "https://mran.microsoft.com/snapshot/2021-06-02"),
   pkgType = "binary",
   install.packages.check.source = "no"
 )
