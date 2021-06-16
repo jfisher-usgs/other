@@ -6,7 +6,7 @@ get_mran_url <- function() {
   mran_url <- "https://mran.microsoft.com"
   valid_snapshots <- checkpoint::list_mran_snapshots(mran_url)
   snapshot_date <- utils::tail(valid_snapshots, 1)
-  paste0(mran_url, snapshot_date)
+  file.path(sub("/$", "", mran_url), "snapshot", snapshot_date)
 }
 
 
