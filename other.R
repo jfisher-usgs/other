@@ -3,9 +3,10 @@ get_mran_url <- function() {
   if (!requireNamespace("checkpoint", quietly = TRUE)) {
     utils::install.packages("checkpoint", repos = "https://cloud.r-project.org", type = "binary")
   }
-  valid_snapshots <- checkpoint::list_mran_snapshots()
+  mran_url <- "https://mran.microsoft.com"
+  valid_snapshots <- checkpoint::list_mran_snapshots(mran_url)
   snapshot_date <- utils::tail(valid_snapshots, 1)
-  paste0(mran_root_url, snapshot_date)
+  paste0(mran_url, snapshot_date)
 }
 
 
