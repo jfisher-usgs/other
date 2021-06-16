@@ -1,11 +1,13 @@
 # Function that returns the latest valid snapshot from MRAN
 get_mran_url <- function() {
-  if (!requireNamespace("checkpoint", quietly = TRUE)) {
-    utils::install.packages("checkpoint", repos = "https://cloud.r-project.org", type = "binary")
-  }
   mran_url <- "https://mran.microsoft.com"
-  valid_snapshots <- checkpoint::list_mran_snapshots(mran_url)
-  snapshot_date <- utils::tail(valid_snapshots, 1)
+  date_pattern <- "\\d{4}-\\d{2}-\\d{2}"
+  x <- try(readLines(file.path(mran_url, "snapshot")), silent = TRUE)
+  if (inherits(x, "try-error")) {
+    stop("Unable to contact Microsoft R Application Network (MRAN) host.", call. = FALSE)
+  }
+  x <- utils::tail(grep(date_pattern, x, value = TRUE), 1)
+  snapshot_date <- gsub(sprintf("<a href=.*?>(%s).*?</a>.*$", date_pattern), "\\1", x)
   file.path(mran_url, "snapshot", snapshot_date)
 }
 
