@@ -17,7 +17,8 @@ options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
   repos = c("CRAN" = get_mran_url()),
   pkgType = "binary",
-  install.packages.check.source = "no"
+  install.packages.check.source = "no",
+  vsc.use_httpgd = TRUE
 )
 
 
