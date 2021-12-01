@@ -1,21 +1,28 @@
 # Function that returns the latest valid snapshot from MRAN
 get_mran_url <- function() {
-  mran_url <- "https://mran.microsoft.com"
+  url <- "https://mran.microsoft.com"
   date_pattern <- "\\d{4}-\\d{2}-\\d{2}"
-  x <- try(readLines(file.path(mran_url, "snapshot")), silent = TRUE)
+  x <- try(readLines(file.path(url, "snapshot")), silent = TRUE)
   if (inherits(x, "try-error")) {
     stop("Unable to contact Microsoft R Application Network (MRAN) host.", call. = FALSE)
   }
   x <- utils::tail(grep(date_pattern, x, value = TRUE), 1)
   snapshot_date <- gsub(sprintf("<a href=.*?>(%s).*?</a>.*$", date_pattern), "\\1", x)
-  file.path(mran_url, "snapshot", snapshot_date)
+  url <- file.path(url, "snapshot", snapshot_date)
+  c("CRAN" = url)
+}
+
+
+# Function that returns the latest valid snapshot from RSPM (requires USGS VPN access)
+get_rspm_url <- function() {
+  c(CRAN = "https://rpkg.chs.usgs.gov/prod-cran/latest")
 }
 
 
 # set global options
 options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = get_mran_url()),
+  repos = get_rspm_url(),
   pkgType = "binary",
   install.packages.check.source = "no",
   vsc.use_httpgd = TRUE
@@ -59,4 +66,11 @@ pd <- function(path = ".", envir = parent.frame()) {
   files <- list.files(file.path(path, "data"), "\\.rda$", full.names = TRUE)
   for (file in files) load(file, envir = envir)
   invisible()
+}
+
+
+# Function for rounding of numbers using the USGS method
+round_usgs <- function(x, digits = 0) {
+  z <- abs(x) * 10^digits + 0.5 + sqrt(.Machine$double.eps)
+  trunc(z) / 10^digits * sign(x)
 }
