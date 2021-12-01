@@ -9,7 +9,7 @@ get_mran_url <- function() {
   x <- utils::tail(grep(date_pattern, x, value = TRUE), 1)
   snapshot_date <- gsub(sprintf("<a href=.*?>(%s).*?</a>.*$", date_pattern), "\\1", x)
   url <- file.path(url, "snapshot", snapshot_date)
-  c("CRAN" = url)
+  c(CRAN = url)
 }
 
 
