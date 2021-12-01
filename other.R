@@ -8,21 +8,20 @@ get_mran_url <- function() {
   }
   x <- utils::tail(grep(date_pattern, x, value = TRUE), 1)
   snapshot_date <- gsub(sprintf("<a href=.*?>(%s).*?</a>.*$", date_pattern), "\\1", x)
-  url <- file.path(url, "snapshot", snapshot_date)
-  c(CRAN = url)
+  file.path(url, "snapshot", snapshot_date)
 }
 
 
 # Function that returns the latest valid snapshot from RSPM (requires USGS VPN access)
 get_rspm_url <- function() {
-  c(CRAN = "https://rpkg.chs.usgs.gov/prod-cran/latest")
+  "https://rpkg.chs.usgs.gov/prod-cran/latest"
 }
 
 
 # set global options
 options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = get_rspm_url(),
+  repos = c("CRAN" = get_rspm_url()),
   pkgType = "both",
   install.packages.check.source = "no",
   vsc.use_httpgd = TRUE
