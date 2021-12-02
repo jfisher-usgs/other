@@ -20,7 +20,7 @@ get_rspm_url <- function() {
 
 # set global options
 options(
-  Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+  Ncpus = 1L,
   repos = c("CRAN" = get_rspm_url()),
   pkgType = "both",
   install.packages.check.source = "no",
