@@ -1,27 +1,7 @@
-# Function that returns the latest valid snapshot from MRAN
-get_mran_url <- function() {
-  url <- "https://mran.microsoft.com"
-  date_pattern <- "\\d{4}-\\d{2}-\\d{2}"
-  x <- try(readLines(file.path(url, "snapshot")), silent = TRUE)
-  if (inherits(x, "try-error")) {
-    stop("Unable to contact Microsoft R Application Network (MRAN) host.", call. = FALSE)
-  }
-  x <- utils::tail(grep(date_pattern, x, value = TRUE), 1)
-  snapshot_date <- gsub(sprintf("<a href=.*?>(%s).*?</a>.*$", date_pattern), "\\1", x)
-  file.path(url, "snapshot", snapshot_date)
-}
-
-
-# Function that returns the latest valid snapshot from RSPM (requires USGS VPN access)
-get_rspm_url <- function() {
-  "https://rpkg.chs.usgs.gov/prod-cran/latest"
-}
-
-
 # set global options
 options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
-  repos = c("CRAN" = get_rspm_url()),
+  repos = c("CRAN" = "https://packagemanager.rstudio.com/cran/latest"),
   pkgType = "both",
   install.packages.check.source = "no",
   vsc.use_httpgd = TRUE
