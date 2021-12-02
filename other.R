@@ -22,7 +22,7 @@ get_rspm_url <- function() {
 options(
   Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
   repos = c("CRAN" = get_rspm_url()),
-  pkgType = "binary",
+  pkgType = "both",
   install.packages.check.source = "no",
   vsc.use_httpgd = TRUE
 )
