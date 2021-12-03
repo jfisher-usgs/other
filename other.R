@@ -8,17 +8,6 @@ options(
 )
 
 
-# install missing packages
-local({
-  pkgs <- c("devtools", "renv", "languageserver", "httpgd")
-  paths <- find.package(pkgs, quiet = TRUE, verbose = FALSE)
-  missing_pkgs <- setdiff(pkgs, basename(paths))
-  if (length(missing_pkgs)) {
-    try(utils::install.packages(missing_pkgs, quiet = TRUE), silent = TRUE)
-  }
-})
-
-
 # Function to load package and open help documentation
 ph <- function(package) {
   if (!tryCatch(is.character(package) && length(package) == 1L, error = function(e) FALSE)) {
