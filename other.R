@@ -1,6 +1,6 @@
 # set global options
 options(
-  Ncpus = max(1L, parallel::detectCores(logical = FALSE) - 1L),
+  Ncpus = 1L,
   repos = c("CRAN" = "https://cloud.r-project.org/"),
   pkgType = "both",
   install.packages.check.source = "no",
